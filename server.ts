@@ -288,7 +288,7 @@ Monotone delivery.
 Never sound older than 14.
 `;
     const prompt = `
-${selectedVoiceDesignPrompt}
+${voiceDesignPrompt}
 
 ${internalNarratorPrompt}
 
