@@ -1,0 +1,6 @@
+{
+  "name": "Myanmar AI Story Voice Studio Pro v5",
+  "description": "An elite cinematic audiobook storytelling text-to-speech studio for Burmese, powered by Gemini 3.1. Features real human narrator, emotional curve, and real-time DSP mastering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
