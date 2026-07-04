@@ -339,9 +339,40 @@ Every paragraph should have different emotional energy.
 Make listeners forget they are hearing AI.
 
 Burmese Text to Speak:
+
 <speak>
+
+Before reading, silently understand the emotional meaning of the story.
+
+Think like an experienced Burmese storyteller.
+
+Do not simply read words.
+
+Perform the story.
+
+Automatically determine:
+
+- natural breathing
+- natural pauses
+- emotional intensity
+- suspense
+- sadness
+- happiness
+- warmth
+- emphasis
+
+Every sentence should have different emotional energy.
+
+Never sound repetitive.
+
+Never keep the same rhythm.
+
+Always sound like a real human.
+
 ${text}
-</speak>`;
+
+</speak>
+`;
 
     const ttsModel = process.env.GEMINI_TTS_MODEL || "gemini-3.1-flash-tts-preview";
     console.log(`Generating speech using native TTS model ${ttsModel}, voice ${voice} for text length ${text.length}`);
