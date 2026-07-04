@@ -49,6 +49,63 @@ import {
   masterAudio 
 } from "./utils/voiceEngine";
 
+const PROFESSIONAL_VOICE_PRESETS = [
+  {
+    id: "Adult Narrator",
+    label: "Adult Narrator",
+    prompt: "Voice Profile: A clear, polished, professional Burmese narrator with a warm and natural adult delivery.",
+  },
+  {
+    id: "12-Year Burmese Girl",
+    label: "12-Year Burmese Girl",
+    prompt: `Voice Profile:
+A highly natural 12-year-old Burmese girl.
+
+Speaking Style:
+Warm, innocent, expressive, emotionally rich, imaginative, energetic but soft.
+
+Emotion:
+Natural emotional transitions, gentle happiness, sadness, surprise, curiosity, excitement.
+
+Delivery:
+Professional young voice acting quality with smooth pacing and realistic breathing.
+
+Accent:
+Native Myanmar Burmese.
+
+Tone:
+Young, pure, sweet, believable, cinematic narration.
+
+Avoid:
+Adult resonance, old woman voice, deep mature female voice, robotic tone, monotone delivery.`,
+  },
+  {
+    id: "18-Year Burmese Girl",
+    label: "18-Year Burmese Girl",
+    prompt: "Voice Profile: A natural, expressive 18-year-old Burmese young woman with bright emotional warmth and believable youthful energy.",
+  },
+  {
+    id: "Young Burmese Woman",
+    label: "Young Burmese Woman",
+    prompt: "Voice Profile: A confident, clear, and friendly young Burmese woman with natural conversational charm.",
+  },
+  {
+    id: "Old Woman",
+    label: "Old Woman",
+    prompt: "Voice Profile: A warm, wise, and gentle older Burmese woman with soft, lived-in character and calm storytelling depth.",
+  },
+  {
+    id: "Old Man",
+    label: "Old Man",
+    prompt: "Voice Profile: A calm, seasoned older Burmese man with steady gravitas, thoughtful pacing, and rich life experience.",
+  },
+] as const;
+
+const getVoiceDesignPrompt = (presetName: string) => {
+  const preset = PROFESSIONAL_VOICE_PRESETS.find((item) => item.id === presetName);
+  return preset?.prompt ?? "";
+};
+
 export default function App() {
   // --- Workspace Editor State ---
   const [text, setText] = useState<string>(SAMPLE_SCRIPTS[0].text);
@@ -145,6 +202,7 @@ export default function App() {
     textVal: string,
     voiceVal: string,
     styleVal: string,
+    voicePresetVal: string,
     speedVal: number,
     pitchVal: number,
     useSmartNarrationVal: boolean,
@@ -155,7 +213,7 @@ export default function App() {
     masteringActiveVal: boolean
   ) => {
     const normText = textVal.trim().replace(/\s+/g, " ");
-    return `${normText}_${voiceVal}_${styleVal}_${speedVal}_${pitchVal}_${useSmartNarrationVal}_${pauseStrengthVal}_${emotionLevelVal}_${expressivenessVal}_${voiceWarmthVal}_${masteringActiveVal}`;
+    return `${normText}_${voiceVal}_${styleVal}_${voicePresetVal}_${speedVal}_${pitchVal}_${useSmartNarrationVal}_${pauseStrengthVal}_${emotionLevelVal}_${expressivenessVal}_${voiceWarmthVal}_${masteringActiveVal}`;
   };
 
   const incrementDailyCount = () => {
@@ -176,6 +234,7 @@ export default function App() {
   // --- Voice Parameter Controls ---
   const [selectedStyle, setSelectedStyle] = useState<VoiceStyle>(VOICE_STYLES[0]);
   const [selectedVoiceName, setSelectedVoiceName] = useState<"Kore" | "Fenrir" | "Puck" | "Charon" | "Zephyr">("Charon");
+  const [selectedVoicePreset, setSelectedVoicePreset] = useState<string>(PROFESSIONAL_VOICE_PRESETS[0].id);
   const [speed, setSpeed] = useState<number>(0.95);
   const [pitch, setPitch] = useState<number>(1.0);
   const [pauseStrength, setPauseStrength] = useState<string>("Natural");
@@ -536,6 +595,7 @@ export default function App() {
             text: textToUse,
             style: selectedStyle.name,
             voiceName: selectedVoiceName,
+            voiceDesignPrompt: getVoiceDesignPrompt(selectedVoicePreset),
             speed: speed,
             pitch: pitch,
             pauseStrength: pauseStrength,
@@ -902,10 +962,7 @@ export default function App() {
       textToUse,
       selectedVoiceName,
       selectedStyle.name,
-      speed,
-      pitch,
-      useSmartNarration,
-      pauseStrength,
+      selectedVoicePreset,
       emotionLevel,
       expressiveness,
       voiceWarmth,
@@ -946,6 +1003,7 @@ export default function App() {
           text: textToUse,
           style: selectedStyle.name,
           voiceName: selectedVoiceName,
+          voiceDesignPrompt: getVoiceDesignPrompt(selectedVoicePreset),
           speed: speed,
           pitch: pitch,
           pauseStrength: pauseStrength,
@@ -2067,6 +2125,28 @@ export default function App() {
                     </option>
                   ))}
                 </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5 mt-2 pt-2 border-t border-purple-900/10">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-purple-300/60 font-medium">Professional Voice Design Preset</span>
+                </div>
+                <select
+                  value={selectedVoicePreset}
+                  onChange={(e) => setSelectedVoicePreset(e.target.value)}
+                  className="w-full bg-[#0A0516] border border-purple-900/40 rounded-xl px-3 py-2 text-xs text-purple-200 focus:outline-none focus:ring-1 focus:ring-purple-500/50"
+                >
+                  {PROFESSIONAL_VOICE_PRESETS.map((preset) => (
+                    <option key={preset.id} value={preset.id}>
+                      {preset.label}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-[9px] text-purple-300/35 leading-relaxed">
+                  {selectedVoicePreset === "12-Year Burmese Girl"
+                    ? "This preset sends a specific young-girl voice design prompt to the backend TTS request."
+                    : "This preset adjusts the narration direction sent to Gemini TTS for the selected character style."}
+                </p>
               </div>
 
               {/* Native TTS Engine Status Indicator */}

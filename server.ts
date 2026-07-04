@@ -162,6 +162,7 @@ app.post("/api/tts", async (req, res) => {
       text, 
       style, 
       voiceName, 
+      voiceDesignPrompt,
       speed, 
       pitch, 
       pauseStrength, 
@@ -286,16 +287,15 @@ Monotone delivery.
 
 Never sound older than 14.
 `;
-const prompt = `
-${childGirlVoicePrompt}
+    const prompt = `
+${selectedVoiceDesignPrompt}
 
 ${internalNarratorPrompt}
 
 Voice Acting Direction:
-Speak as a highly natural 12-year-old Burmese girl.
-Use warm, innocent, sweet, youthful tone.
-Use emotional storytelling, gentle excitement, curiosity, sadness, and surprise.
-Avoid adult resonance, deep mature female tone, robotic tone, and monotone delivery.
+Follow the selected voice design profile closely.
+Use a natural, believable, emotionally rich Burmese narration style.
+Avoid robotic tone, monotone delivery, and mismatched age or gender resonance.
 
 Burmese Text to Speak:
 <speak>
