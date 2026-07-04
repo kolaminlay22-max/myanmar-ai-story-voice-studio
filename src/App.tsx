@@ -106,6 +106,19 @@ const getVoiceDesignPrompt = (presetName: string) => {
   return preset?.prompt ?? "";
 };
 
+const CHILD_GIRL_VOICE_STYLE: VoiceStyle = {
+  id: "12-year-burmese-girl",
+  name: "12-Year Burmese Girl",
+  burmeseName: "၁၂ နှစ်အရွယ် မြန်မာ မ",
+  description: "A spirited young Burmese girl's narration with warm innocence and gentle expressiveness.",
+  icon: "Smile",
+  defaultVoice: "Puck",
+  defaultSpeed: 1.05,
+  defaultWarmth: 0.85,
+  defaultEmotion: 0.9,
+  promptGuideline: "Speak with youthful warmth, innocent energy, and believable Burmese storytelling style.",
+};
+
 export default function App() {
   // --- Workspace Editor State ---
   const [text, setText] = useState<string>(SAMPLE_SCRIPTS[0].text);
@@ -963,6 +976,10 @@ export default function App() {
       selectedVoiceName,
       selectedStyle.name,
       selectedVoicePreset,
+      speed,
+      pitch,
+      useSmartNarration,
+      pauseStrength,
       emotionLevel,
       expressiveness,
       voiceWarmth,
@@ -2357,6 +2374,12 @@ export default function App() {
               Narrative Voice Profiles
             </span>
             <div className="grid grid-cols-2 gap-3">
+              <VoiceCard
+                key={CHILD_GIRL_VOICE_STYLE.id}
+                style={CHILD_GIRL_VOICE_STYLE}
+                isSelected={selectedStyle.id === CHILD_GIRL_VOICE_STYLE.id}
+                onSelect={() => handleSelectStyle(CHILD_GIRL_VOICE_STYLE)}
+              />
               {VOICE_STYLES.map((style) => (
                 <VoiceCard
                   key={style.id}
