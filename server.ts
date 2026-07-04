@@ -254,23 +254,48 @@ BURMESE AUDIOBOOK NARRATOR ENGINE v5 RULES:
 
 8. QUALITY VALIDATOR
 - Before outputting the final audio, internally verify: pronunciation, pauses, emotion, rhythm, pacing, and consistency. If quality is below target, refine and improve internally before generating.`;
+const childGirlVoicePrompt = `
+VOICE DESIGN:
 
-    const prompt = `${internalNarratorPrompt}
+Perform this as a highly natural 12-year-old Burmese girl.
 
-You are a world-class Myanmar voice artist. You are doing a professional voice recording in the style of "${style}".
+Voice Profile:
+A highly natural 12-year-old Burmese girl.
 
-Instructions: You MUST ONLY speak the Burmese text provided below. Do not read these instructions aloud. Do not translate. Do not introduce yourself. Do not add any English words. Speak only the exact Burmese words inside the <speak> tags.
+Speaking Style:
+Warm, innocent, expressive, emotionally rich, imaginative, energetic but soft.
+
+Emotion:
+Natural emotional transitions, gentle happiness, sadness, surprise, curiosity, excitement.
+
+Delivery:
+Professional voice acting quality with smooth pacing and realistic breathing.
+
+Accent:
+Native Myanmar Burmese.
+
+Tone:
+Young, pure, sweet, believable, cinematic narration.
+
+Avoid:
+Adult resonance.
+Old woman voice.
+Deep mature female voice.
+Robotic tone.
+Monotone delivery.
+
+Never sound older than 14.
+`;
+const prompt = `
+${childGirlVoicePrompt}
+
+${internalNarratorPrompt}
 
 Voice Acting Direction:
-- Selected Aesthetic Style: ${style}
-- Target Base Speed: ${speed} (where 1.0 is default, 0.8 is slower/emotional, 1.2 is faster)
-- Pitch / Tone Height: ${pitch || "Medium"} (ranging from Deep/Low, Medium, to High/Bright)
-- Pause Duration: ${pauseStrength} (use natural, cinematic breathing breaks)
-- Emotion Intensity: ${emotionLevel} (deliver with deep emotional progression matching the style)
-- Expressiveness Level: ${expressiveness} (utilize wide vocal range, beautiful modulation, and narrative weight)
-- Voice Warmth & Breathiness: ${voiceWarmth} (project warm, relaxed resonance)
-
-${useSmartNarration ? dynamicPacingAndEmotionGuideline : ""}
+Speak as a highly natural 12-year-old Burmese girl.
+Use warm, innocent, sweet, youthful tone.
+Use emotional storytelling, gentle excitement, curiosity, sadness, and surprise.
+Avoid adult resonance, deep mature female tone, robotic tone, and monotone delivery.
 
 Burmese Text to Speak:
 <speak>
